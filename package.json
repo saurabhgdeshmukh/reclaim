@@ -1,0 +1,27 @@
+{
+  "name": "reclaim",
+  "private": true,
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter dashboard --filter api dev",
+    "dev:dashboard": "pnpm --filter dashboard dev",
+    "dev:api": "pnpm --filter api dev",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "type-check": "pnpm -r --if-present run type-check",
+    "test": "pnpm -r --if-present run test",
+    "check:boundaries": "node scripts/check-boundaries.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "typescript": "5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

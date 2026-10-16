@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-display: var(--font-display-family);
+  --font-serif: var(--font-serif-family);
+  --font-mono: var(--font-mono-family);
+  --color-paper: #efe6d6;
+  --color-ink: #1c1612;
+  --color-carbon: #1d3557;
+  --color-safety: #f0c400;
+  --color-stamp: #b42318;
+  --color-rule: #d8ccb8;
+  --color-sheet: #f7f1e6;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.dock-grid {
+  background-image:
+    linear-gradient(to right, rgb(28 22 18 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(28 22 18 / 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
