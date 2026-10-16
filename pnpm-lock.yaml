@@ -23,6 +23,9 @@ importers:
       '@reclaim/api-contracts':
         specifier: workspace:*
         version: link:../../packages/api-contracts
+      '@reclaim/detention':
+        specifier: workspace:*
+        version: link:../../packages/detention
       '@reclaim/logging':
         specifier: workspace:*
         version: link:../../packages/logging
@@ -105,6 +108,18 @@ importers:
         specifier: 0.45.4
         version: 0.45.4
     devDependencies:
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: 5.0.3
+        version: 5.0.3(@types/node@24.11.0)(vite@8.3.4(@types/node@24.11.0)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))
+
+  packages/detention:
+    devDependencies:
+      '@types/node':
+        specifier: 24.11.0
+        version: 24.11.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3

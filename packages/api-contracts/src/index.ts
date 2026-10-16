@@ -19,3 +19,21 @@ export const demoSignInSchema = z.object({
 });
 
 export type DemoSignIn = z.infer<typeof demoSignInSchema>;
+
+export const detentionRequestSchema = z.object({
+  arrivedAt: z.iso.datetime({ offset: true }),
+  departedAt: z.iso.datetime({ offset: true }),
+  freeMinutes: z.number().int().min(0).optional(),
+  rateCentsPerHour: z.number().int().min(0),
+});
+
+export type DetentionRequest = z.infer<typeof detentionRequestSchema>;
+
+export const detentionResponseSchema = z.object({
+  totalMinutes: z.number().int().min(0),
+  freeMinutes: z.number().int().min(0),
+  billableMinutes: z.number().int().min(0),
+  amountCents: z.number().int().min(0),
+});
+
+export type DetentionResponse = z.infer<typeof detentionResponseSchema>;
