@@ -1,8 +1,11 @@
 import cors from "@fastify/cors";
 import {
+  detentionRequestSchema,
+  detentionResponseSchema,
   healthResponseSchema,
   helloResponseSchema,
 } from "@reclaim/api-contracts";
+import { calculateDetention } from "@reclaim/detention";
 import { createLogger, createTraceId } from "@reclaim/logging";
 import Fastify from "fastify";
 import { readTraceId } from "./trace";
@@ -33,6 +36,38 @@ export async function buildServer() {
   app.get("/v1/hello", async (request) => {
     log.info("hello", { traceId: request.traceId });
     return helloResponseSchema.parse({ message: "reclaim" });
+  });
+
+  app.post("/v1/detention/calculate", async (request, reply) => {
+    const parsed = detentionRequestSchema.safeParse(request.body);
+    if (!parsed.success) {
+      return reply
+        .code(400)
+        .send({ error: "invalid_request", issues: parsed.error.issues });
+    }
+
+    const { arrivedAt, departedAt, freeMinutes, rateCentsPerHour } =
+      parsed.data;
+    try {
+      const result = calculateDetention({
+        arrivedAt: new Date(arrivedAt),
+        departedAt: new Date(departedAt),
+        freeMinutes,
+        rateCentsPerHour,
+      });
+      log.info("detention", {
+        traceId: request.traceId,
+        billableMinutes: result.billableMinutes,
+      });
+      return detentionResponseSchema.parse(result);
+    } catch (error) {
+      if (error instanceof RangeError) {
+        return reply
+          .code(400)
+          .send({ error: "invalid_request", message: error.message });
+      }
+      throw error;
+    }
   });
 
   return app;
